@@ -14,8 +14,8 @@ Welcome to my journey of learning and practicing **Data Structures and Algorithm
 
 ## Repository Structure 📂
 - **DSA Practice**: Problem solutions and coding challenges.
-- **Concept Notes**: Detailed explanations of each topic, including visual aids.
-- **Resources**: Tutorials, books, and other helpful learning materials.
+- **Concept Notes**: Detailed explanations of each topic using comments (#).
+- **Resources**: Will be learning from different youtube tutorials, courses, and other helpful learning materials.
 
 ---
 
