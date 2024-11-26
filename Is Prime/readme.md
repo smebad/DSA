@@ -38,6 +38,7 @@ print("Test Case 12: is_prime(1) ->", is_prime(1))       # Expected: False
 print("Test Case 13: is_prime(713) ->", is_prime(713))   # Expected: False
 ```
 ### Expected Output
+```
 Test Case 1: is_prime(2) -> True
 Test Case 2: is_prime(3) -> True
 Test Case 3: is_prime(4) -> False
@@ -51,3 +52,4 @@ Test Case 10: is_prime(2017) -> True
 Test Case 11: is_prime(2048) -> False
 Test Case 12: is_prime(1) -> False
 Test Case 13: is_prime(713) -> False
+```
