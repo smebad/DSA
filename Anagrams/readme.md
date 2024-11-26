@@ -85,6 +85,8 @@ print(anagrams('pp', 'oo')) # -> false
 ```
 
 ## Complexity:
+* n = strings1 length
+* m = strings2 length
 * Time Complexity: O(n + m)
 * Space Complexity: ~O(n + m)
-
+### *Linear Solution!*
