@@ -84,5 +84,7 @@ print(anagrams('po', 'popp')) # -> false
 print(anagrams('pp', 'oo')) # -> false
 ```
 
-
+## Complexity:
+* Time Complexity: O(n + m)
+* Space Complexity: ~O(n + m)
 
