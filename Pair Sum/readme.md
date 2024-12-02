@@ -13,7 +13,7 @@ This README explains the problem, two different approaches to solve it, and thei
 
 ### Input
 - `numbers`: A list of integers.
-- `target_sum`: The target integer value that the sum of two elements in the list should equal.
+- `target_sum`: The target integer value that the sum of two elements in the list should be equal.
 
 ### Output
 - A tuple of two integers, representing the indices of the pair of numbers whose sum equals `target_sum`.
@@ -71,8 +71,8 @@ def pair_sum(numbers, target_sum):
 1. Create an empty dictionary to store numbers and their indices.
 2. For each number in the list, calculate its complement (target_sum - num).
 3. Check if the complement exists in the dictionary:
-  * If it does, return the current index and the index of the complement.
-  * Otherwise, store the current number and its index in the dictionary.
+      * If it does, return the current index and the index of the complement.
+      * Otherwise, store the current number and its index in the dictionary.
 
 ### Time Complexity:
 * Time: O(n)
