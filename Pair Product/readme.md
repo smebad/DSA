@@ -73,7 +73,7 @@ print(pair_product(numbers, 35994000))     # -> (5998, 5999)
 ## Time Complexity
 * Time Complexity: O(n)
     * The function iterates through the list once, and dictionary lookups are O(1) on average.
-* Space Complexity: O(n)
+* Space Complexity: On
     * A hash map is used to store numbers and their indices, which takes linear space relative to the input size.
 
 ## Summary
