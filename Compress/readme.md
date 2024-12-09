@@ -87,4 +87,4 @@ print(compress('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 ## Key Insights
 - The two pointers method is ideal for problems involving contiguous groups of characters or numbers, as it allows efficient processing of such patterns.
 - Adding a sentinel character simplifies edge case handling, particularly for the last group of characters.
-- This approach avoids unnecessary intermediate computations, ensuring both clarity and performance
+- This approach avoids unnecessary intermediate computations, ensuring both clarity and performance.
