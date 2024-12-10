@@ -73,4 +73,4 @@ This approach is significantly faster and more scalable for large lists.
 ### Conclusion
 
 - The **brute-force solution** is simple but inefficient for large inputs.
-- The **optimized solution using sets** provides significant performance gains and should be preferred for practical applications.
+- The **optimized solution using sets** provides significant performance gains and should be preferred for practical application
