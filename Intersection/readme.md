@@ -11,7 +11,7 @@ The **Intersection Problem** involves finding common elements between two lists.
 
 ## Solutions
 
-We will implement two solutions to the problem: a **brute-force solution** and an **optimized solution using sets**.
+We will implement two solutions to the problem: a **brute-force solution** and an **optimized solution using sets*
 
 ---
 
