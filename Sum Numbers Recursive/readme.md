@@ -1,7 +1,7 @@
 # Sum Numbers Recursive
 
 ## Problem Description
-The problem is to write a function, `sum_numbers_recursive`, that takes in an array of numbers and returns the sum of all the numbers in the array. The solution must be implemented **recursively**. All elements in the input array are guaranteed to be integers
+The problem is to write a function, `sum_numbers_recursive`, that takes in an array of numbers and returns the sum of all the numbers in the array. The solution must be implemented **recursively**. All elements in the input array are guaranteed to be integers.
 
 ---
 
