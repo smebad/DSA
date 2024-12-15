@@ -1,6 +1,4 @@
-# Anagrams (Anagrams are strings that contain same characters but in any order e.g restful and fluster)
-# Write a function, anagrams, that takes in two strings as arguments. The function should return a boolean indicating whether or not the strings are anagrams. Anagrams are strings that contain the same characters, but in any order.
-
+# Solution
 def anagrams(s1, s2):
   return char_count(s1) == char_count(s2)
 
