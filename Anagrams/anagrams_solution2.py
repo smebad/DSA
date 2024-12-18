@@ -1,4 +1,3 @@
-# Anagrams (Anagrams are strings that contain same characters but in any order e.g restful and fluster)
 # Solution 2
 
 from collections import Counter
