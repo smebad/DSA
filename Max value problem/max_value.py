@@ -1,6 +1,6 @@
 #  Max value
-# Write a function, max_value, that takes in list of numbers as an argument. The function should return the largest number in the list.
-# Solve this without using any built-in list methods.
+
+# Solution:
 
 def max_value(nums): 
   max_num = float('-inf') # Step 1: Starting with the smallest possible value (negative infinity)
