@@ -20,6 +20,9 @@ def sum_list(head):
 
   return total_sum
 
+# n = number of nodes
+# Time: O(n)
+# Space: O(1)
 
 
 # test cases
