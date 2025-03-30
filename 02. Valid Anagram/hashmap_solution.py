@@ -1,28 +1,5 @@
-# Valid Anagram
-# Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
- 
-
-# Example 1:
-
-# Input: s = "anagram", t = "nagaram"
-
-# Output: true
-
-# Example 2:
-
-# Input: s = "rat", t = "car"
-
-# Output: false
-
- 
-
-# Constraints:
-
-# 1 <= s.length, t.length <= 5 * 104
-# s and t consist of lowercase English letters.
-
-# Sorting Solution:
+# Hashmap Solution:
 
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
@@ -38,8 +15,8 @@ class Solution:
         return countS == countT
     
 # Time and Space Complexity: 
-# O(n log n + m log m) for sorting both strings, where n and m are the lengths of the two strings.
-# O(1) or O(n+m) for the space complexity, depending on the sorting algorithm used.
+# O(n + m) for the space complexity, where n and m are the lengths of the two strings.
+# O(1) since we have at most 26 characters in the English alphabet.
 
 # Test Cases:
 
