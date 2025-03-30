@@ -1,4 +1,4 @@
-# Valid Anagram - Leetcode Blind75
+# Valid Anagram - LeetCode Blind 75
 
 ## Problem Statement
 Given two strings `s` and `t`, return `true` if `t` is an anagram of `s`, and `false` otherwise.
