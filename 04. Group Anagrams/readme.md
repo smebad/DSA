@@ -1,97 +1,127 @@
-# Contains Duplicate - LeetCode Blind 75
+# Group Anagrams - Leetcode Blind 75
 
 ## Problem Statement
-Given an integer array `nums`, return `true` if any value appears at least twice in the array, and return `false` if every element is distinct.
+Given an array of strings `strs`, group all anagrams together into sublists. You may return the output in any order.
 
-### Examples
+An **anagram** is a string that contains the exact same characters as another string, but the order of the characters can be different.
 
-#### Example 1:
+### Example 1:
 **Input:**
-```python
-nums = [1,2,3,1]
+```plaintext
+strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 ```
 **Output:**
-```python
-True
+```plaintext
+[["hat"], ["act", "cat"], ["stop", "pots", "tops"]]
 ```
-**Explanation:** The element `1` occurs at the indices `0` and `3`.
 
-#### Example 2:
+### Example 2:
 **Input:**
-```python
-nums = [1,2,3,4]
+```plaintext
+strs = ["x"]
 ```
 **Output:**
-```python
-False
+```plaintext
+[["x"]]
 ```
-**Explanation:** All elements are distinct.
 
-#### Example 3:
+### Example 3:
 **Input:**
-```python
-nums = [1,1,1,3,3,4,3,2,4,2]
+```plaintext
+strs = [""]
 ```
 **Output:**
-```python
-True
+```plaintext
+[[""]]
 ```
 
 ### Constraints:
-- `1 <= nums.length <= 10^5`
-- `-10^9 <= nums[i] <= 10^9`
+- `1 <= strs.length <= 1000`
+- `0 <= strs[i].length <= 100`
+- `strs[i]` is made up of lowercase English letters.
 
 ---
 
-## Solution Explanation
-To solve this problem efficiently, we use a **HashSet** data structure to keep track of the numbers we have seen so far.
-
+## Solutions
+### 1. Sorting Solution
 ### Approach:
-1. Initialize an empty set called `hashset`.
-2. Iterate through each element `n` in `nums`:
-   - If `n` is already present in `hashset`, return `True` (since it is a duplicate).
-   - Otherwise, add `n` to `hashset`.
-3. If the loop completes without finding duplicates, return `False`.
+- Create a dictionary `res` where sorted versions of strings act as keys.
+- Iterate over the list, sort each string, and use the sorted string as a key in the dictionary.
+- Append the original string to the corresponding key.
+- Convert the dictionary values into a list and return.
 
-### Code Implementation:
 ```python
 from typing import List
+from collections import defaultdict
 
 class Solution:
-    def hasDuplicate(self, nums: List[int]) -> bool:
-        hashset = set()
-
-        for n in nums:
-            if n in hashset:
-                return True
-            hashset.add(n)
-        return False
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        res = defaultdict(list)
+        for s in strs:
+            sortedS = ''.join(sorted(s))
+            res[sortedS].append(s)
+        return list(res.values())
 ```
 
-### Complexity Analysis
-- **Time Complexity:** `O(n)`, where `n` is the length of the `nums` array. Each lookup and insertion operation in a hash set runs in **O(1)** on average, making the total complexity **O(n)**.
-- **Space Complexity:** `O(n)`, as we store at most `n` elements in the hash set.
+### Time Complexity:
+- **O(m * nlogn)** where `m` is the number of strings and `n` is the maximum length of a string (due to sorting).
 
-### Test Cases
+### Space Complexity:
+- **O(m * n)** since we store all strings in a dictionary.
+
+### Test Cases:
 ```python
+# Test case 1
+strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 solution = Solution()
-print(solution.hasDuplicate([1, 2, 3, 1]))  # Output: True
-print(solution.hasDuplicate([1, 2, 3, 4]))  # Output: False
-print(solution.hasDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2]))  # Output: True
+print(solution.groupAnagrams(strs))  # Expected output: [["hat"], ["act", "cat"], ["stop", "pots", "tops"]]
+
+# Test case 2
+strs = ["x"]
+solution = Solution()
+print(solution.groupAnagrams(strs))  # Expected output: [["x"]]
+
+# Test case 3
+strs = [""]
+solution = Solution()
+print(solution.groupAnagrams(strs))  # Expected output: [[""]]
 ```
-
-### Alternative Approaches
-1. **Sorting Approach:** Sort the array and check if adjacent elements are the same.
-   - **Time Complexity:** `O(n log n)` (due to sorting)
-   - **Space Complexity:** `O(1)` (if sorting in-place) or `O(n)` (if using extra space)
-
-2. **Brute Force Approach:** Use two nested loops to compare each element with every other element.
-   - **Time Complexity:** `O(n^2)` (inefficient for large inputs)
-   - **Space Complexity:** `O(1)` (no extra data structures used)
 
 ---
 
-### Summary
-✅ **Efficient HashSet-based solution with O(n) time complexity.**  
-✅ **Handles large inputs efficiently.**  
-✅ **Tested with multiple edge cases.**
+### 2. Hash Table Solution
+### Approach:
+- Instead of sorting, use a **count array of size 26** to track the frequency of characters.
+- Convert the count array into a tuple and use it as a key in a dictionary.
+- Append the original string to the corresponding key.
+
+```python
+from typing import List
+from collections import defaultdict
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        res = defaultdict(list)
+        for s in strs:
+            count = [0] * 26  # 26 lowercase letters
+            for c in s:
+                count[ord(c) - ord('a')] += 1
+            res[tuple(count)].append(s)
+        return list(res.values())
+```
+
+### Time Complexity:
+- **O(m * n)** where `m` is the number of strings and `n` is the maximum length of a string (linear traversal for character counting).
+
+### Space Complexity:
+- **O(m * n)** for storing all strings in the dictionary.
+
+---
+
+## Summary
+- **Sorting-based approach**: Slower but intuitive (`O(nlogn)` per string).
+- **Hash Table-based approach**: Faster, using character frequency count (`O(n)`).
+- Both solutions store grouped anagrams in a dictionary, leading to `O(m * n)` space complexity.
+
+This problem is a great example of utilizing hashing techniques to improve efficiency in string-based problems.
+
