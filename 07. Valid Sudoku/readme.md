@@ -87,13 +87,17 @@ class Solution:
 
 ## Time and Space Complexity
 
-### Time Complexity: `O(81)` or simply `O(1)`
-- The board is always 9x9 (constant size).
-- We traverse each cell once: `9 rows * 9 columns = 81` cells.
+### Time Complexity: `O(n²)`
+- We loop through each cell of the 9x9 board → total of 81 cells → O(81) → Generalized as O(n²) for an n x n board
+- Each set lookup and insert is O(1) on average
 
-### Space Complexity: `O(81)` or simply `O(1)`
-- We store up to 9 entries per row, column, and box.
-- At most, we store 9 digits (1-9) in 27 sets (9 rows + 9 cols + 9 boxes).
+### Space Complexity: `O(n²)`
+- We maintain:
+  - One set per row (9 rows)
+  - One set per column (9 columns)
+  - One set per square (9 squares)
+- Worst case: All cells are filled with unique digits → each set holds up to 9 entries → Total auxiliary space is still proportional to O(n²)
+
 
 ---
 
