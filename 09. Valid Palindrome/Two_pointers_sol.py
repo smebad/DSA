@@ -22,7 +22,7 @@ class Solution:
     # or we could write return isalnum(c) instead of the above function
 
 # Time complexity: O(n), where n is the length of the string s.
-# Space complexity: O(n), where n is the length of the string s.
+# Space complexity: O(1), since we are using only a constant amount of space for the pointers l and r.
 
 # Test Cases:
 # Test Case 1
