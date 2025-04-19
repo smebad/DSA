@@ -1,108 +1,99 @@
-# Top K Frequent Elements - Leetcode Blind 75
+# Daily Temperatures - Leetcode
 
-## Problem Description
-This is one of the Blind 75 LeetCode problems. Given an integer array `nums` and an integer `k`, the task is to return the `k` most frequent elements in the array. The test cases are constructed such that the answer is always unique. The output can be returned in any order.
+## Problem Statement
+Given an array of integers `temperatures` that represent the daily temperatures, the task is to return an array `answer` such that `answer[i]` is the number of days you have to wait after the `i`th day to get a warmer temperature. If there is no future day for which this is possible, keep `answer[i] == 0` instead.
 
-### Examples
-**Example 1:**
-```
-Input: nums = [1, 2, 2, 3, 3, 3], k = 2
-Output: [2, 3]
-```
+### Example 1:
+- **Input:** `temperatures = [73,74,75,71,69,72,76,73]`
+- **Output:** `[1,1,4,2,1,1,0,0]`
 
-**Example 2:**
-```
-Input: nums = [7, 7], k = 1
-Output: [7]
-```
+### Example 2:
+- **Input:** `temperatures = [30,40,50,60]`
+- **Output:** `[1,1,1,0]`
 
-### Constraints
-- 1 <= nums.length <= 10^4
-- -1000 <= nums[i] <= 1000
-- 1 <= k <= number of distinct elements in nums
+### Example 3:
+- **Input:** `temperatures = [30,60,90]`
+- **Output:** `[1,1,0]`
+
+### Constraints:
+- `1 <= temperatures.length <= 10^5`
+- `30 <= temperatures[i] <= 100`
 
 ---
 
-## Solution 1: Bucket Sort Approach
-### Description
-This solution uses a frequency dictionary to count occurrences of each number. Then it uses a list of lists (`freq`) where the index represents the frequency and the list at each index contains numbers with that frequency. It iterates this list from the highest frequency to the lowest and accumulates the most frequent elements.
+## Brute Force Solution
 
-### Code
+### Code:
 ```python
 from typing import List
 class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        count = {}
-        freq = [[] for i in range(len(nums) + 1)]
-
-        for num in nums:
-            count[num] = 1 + count.get(num, 0)
-        for num, cnt in count.items():
-            freq[cnt].append(num)
-
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        n = len(temperatures)
         res = []
-        for i in range(len(freq) - 1, 0, -1):
-            for num in freq[i]:
-                res.append(num)
-                if len(res) == k:
-                    return res
-```
 
-### Time and Space Complexity
-- **Time Complexity:** O(n), where n is the length of `nums`
-- **Space Complexity:** O(n)
-
----
-
-## Solution 2: Sorting Approach
-### Description
-This solution also starts by counting the frequency of each number. It then stores frequency-number pairs in an array, sorts it, and pops the top `k` elements.
-
-### Code
-```python
-from typing import List
-class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        count = {}
-        for num in nums:
-            count[num] = 1 + count.get(num, 0)
-
-        arr = []
-        for num, cnt in count.items():
-            arr.append([cnt, num])
-
-        arr.sort()
-        res = []
-        while len(res) < k:
-            res.append(arr.pop()[1])
+        for i in range(n):
+            count = 1
+            j = i + 1
+            while j < n:
+                if temperatures[j] > temperatures[i]:
+                    break
+                j += 1
+                count += 1
+            count = 0 if j == n else count
+            res.append(count)
         return res
 ```
 
-### Time and Space Complexity
-- **Time Complexity:** O(n log n), due to sorting
-- **Space Complexity:** O(n)
+### Explanation:
+- For each day, the algorithm checks every subsequent day to find a warmer temperature.
+- If it finds a warmer temperature, it counts the number of days waited and stores it in the result.
+- If it doesn’t find one, it stores 0.
+
+### Time Complexity:
+- **O(n^2)** where `n` is the length of the `temperatures` array because each element may require scanning all the subsequent elements.
+
+### Space Complexity:
+- **O(n)** for the result array.
+
+This brute force approach works well for small inputs but is not suitable for large input sizes due to its quadratic time complexity.
 
 ---
 
-## Test Cases
+## Optimal Stack-Based Solution
+
+### Code:
 ```python
-# Test Case 1:
-nums = [1, 2, 2, 3, 3, 3]
-k = 2
-print(Solution().topKFrequent(nums, k))  # Output: [2, 3]
+from typing import List
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
+        stack = []  # pair: [temp, index]
 
-# Test Case 2:
-nums = [7, 7]
-k = 1
-print(Solution().topKFrequent(nums, k))  # Output: [7]
-
-# Test Case 3:
-nums = [1, 1, 1, 2, 2, 3]
-k = 2
-print(Solution().topKFrequent(nums, k))  # Output: [1, 2]
+        for i, t in enumerate(temperatures):
+            while stack and t > stack[-1][0]:
+                stackT, stackInd = stack.pop()
+                res[stackInd] = i - stackInd
+            stack.append((t, i))
+        return res
 ```
+
+### Explanation:
+- This solution uses a monotonic stack to keep track of temperature indices.
+- For each temperature `t` at index `i`, it checks whether `t` is warmer than the temperature at the index on top of the stack.
+- If it is, the difference in indices is calculated and stored.
+- This ensures that each index is pushed and popped at most once.
+
+### Time Complexity:
+- **O(n)** where `n` is the length of the `temperatures` array, as each element is pushed and popped from the stack at most once.
+
+### Space Complexity:
+- **O(n)** for the stack and the result array.
+
+This is the most efficient solution for the problem. The stack based method is optimal because it avoids unnecessary comparisons and reduces the number of operations to a linear scale.
 
 ---
 
 ## Summary
-This problem is great for practicing frequency counting and optimizing with different data structures. The bucket sort method provides an optimal O(n) solution, while the sorting-based method is simpler but runs in O(n log n) time. Both use extra space proportional to the input size.
+- The brute force solution checks each possible next day for a warmer temperature and has a time complexity of O(n^2).
+- The optimal solution uses a stack to efficiently determine the next warmer day for each day and works in linear time.
+- For large inputs, the stack-based solution is recommended due to its better performance.
