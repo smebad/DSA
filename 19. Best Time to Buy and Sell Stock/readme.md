@@ -108,5 +108,3 @@ print(Solution().maxProfit(prices))  # Output: 5
 prices = [7,6,4,3,1]
 print(Solution().maxProfit(prices))  # Output: 0
 ```
-
-This problem is commonly used in interviews to assess your understanding of greedy algorithms, array traversal, and sliding window techniques.
