@@ -1,5 +1,5 @@
 # K Closest Points to Origin
-# Sorting solution:
+# Min-Heap solution:
 
 from typing import List
 import heapq
