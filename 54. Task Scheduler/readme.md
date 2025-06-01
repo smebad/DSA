@@ -60,7 +60,7 @@ class Solution:
 
 ---
 
-## Solution Approach and Logic (Beginner Friendly)
+## Solution Approach and Logic
 
 ### Step-by-Step Approach:
 
