@@ -1,6 +1,5 @@
 # Valid Palindrome II
 # Two Pointers Solution:
-
 class Solution:
     def validPalindrome(self, s: str) -> bool:
         l, r = 0, len(s) - 1
