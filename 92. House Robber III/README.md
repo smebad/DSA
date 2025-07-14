@@ -2,16 +2,16 @@
 
 ## Problem Statement
 
-The thief has discovered a neighborhood structured as a **binary tree**, where each node represents a house with some amount of money. There's only one rule: **you cannot rob two directly-linked houses** (i.e., a parent and its child).
+The thief has discovered a new neighborhood where the houses are arranged in the form of a **binary tree**. Each house has a certain amount of money. However, if the thief robs two **directly connected houses** (a parent and one of its children), an alarm will be triggered.
 
-Given the root of the binary tree, determine the **maximum amount of money** the thief can rob without alerting the police.
+Given the `root` of the binary tree, return the **maximum amount of money** the thief can rob **without alerting the police**.
 
 ### Example 1:
 
 ```
 Input: root = [3,2,3,null,3,null,1]
 Output: 7
-Explanation: Rob houses 3 + 3 + 1 = 7
+Explanation: Rob 3 (root), 3 (left.right), and 1 (right.right)
 ```
 
 ### Example 2:
@@ -19,19 +19,17 @@ Explanation: Rob houses 3 + 3 + 1 = 7
 ```
 Input: root = [3,4,5,1,3,null,1]
 Output: 9
-Explanation: Rob houses 4 + 5 = 9
+Explanation: Rob 4 (left), and 5 (right)
 ```
 
-## Constraints
+### Constraints
 
-* The number of nodes is in the range \[1, 10^4]
+* The number of nodes is in the range \[1, 10^4].
 * 0 <= Node.val <= 10^4
 
 ---
 
 ## Recursive Solution (Brute Force)
-
-### Python Code with Comments
 
 ```python
 class TreeNode:
@@ -43,37 +41,102 @@ class TreeNode:
 class Solution:
     def rob(self, root: Optional[TreeNode]) -> int:
         if not root:
-            return 0  # If the node is None, there's nothing to rob
+            return 0  # No money from an empty node
 
-        # Rob current node, so skip its direct children
-        res = root.val
+        res = root.val  # Rob current node
+
+        # Add values from grandchildren if available
         if root.left:
             res += self.rob(root.left.left) + self.rob(root.left.right)
         if root.right:
             res += self.rob(root.right.left) + self.rob(root.right.right)
 
-        # Alternatively, don't rob current node, and rob its children
+        # Compare with skipping current node and robbing its children
         res = max(res, self.rob(root.left) + self.rob(root.right))
-
-        return res  # Return the best of the two options
+        return res
 ```
 
-### Approach and Explanation
+### Explanation of the Approach
 
-* For each node, we have two choices:
+* For each node, the algorithm decides:
 
-  1. **Rob it**: We add its value and skip its immediate children.
-  2. **Skip it**: We rob its children instead.
-* The function recursively evaluates both scenarios and returns the maximum profit.
-* This is a brute-force recursive method where each decision leads to more recursive calls.
+  1. Rob the current house (skip its children).
+  2. Skip the current house (consider the best outcome of robbing its children).
+* It computes both cases and takes the maximum.
+* This approach works well for small trees but becomes inefficient as the tree grows.
 
 ### Time and Space Complexity
 
-* **Time Complexity:** O(2^n), where n is the number of nodes. Every node may lead to two recursive branches (rob or not).
-* **Space Complexity:** O(n), which is the depth of the recursion stack in the worst case (a skewed tree).
+* **Time Complexity:** O(2^n), where n is the number of nodes. The algorithm explores every combination (rob or skip) recursively.
+* **Space Complexity:** O(n), for the maximum depth of the recursion stack in a skewed tree.
+
+---
+
+## Dynamic Programming Solution (Optimized)
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+        def dfs(root):
+            if not root:
+                return [0, 0]  # [max_if_robbed, max_if_skipped]
+
+            leftPair = dfs(root.left)
+            rightPair = dfs(root.right)
+
+            # Rob current node: cannot rob its children
+            withRoot = root.val + leftPair[1] + rightPair[1]
+            # Skip current node: take max of robbing or not robbing children
+            withoutRoot = max(leftPair) + max(rightPair)
+
+            return [withRoot, withoutRoot]
+
+        return max(dfs(root))
+```
+
+### Explanation of the Approach
+
+* Each `dfs(node)` returns two values:
+
+  * `withRoot`: maximum amount when robbing the current node
+  * `withoutRoot`: maximum amount when skipping the current node
+* At each node, we calculate both options based on its children’s values and propagate them up.
+* No values are recomputed, making it highly efficient.
+
+### Time and Space Complexity
+
+* **Time Complexity:** O(n), where n is the number of nodes. Every node is visited exactly once.
+* **Space Complexity:** O(n), for recursion stack in the worst case (skewed tree).
+
+---
+
+## Comparison Between Recursive and DP Solutions
+
+| Aspect           | Recursive (Brute Force) | Dynamic Programming (Optimized) |
+| ---------------- | ----------------------- | ------------------------------- |
+| Time Complexity  | O(2^n)                  | O(n)                            |
+| Space Complexity | O(n)                    | O(n)                            |
+| Recomputations   | Yes                     | No                              |
+| Suitable for     | Small trees             | Large trees                     |
+| Optimal          | No                      | Yes                             |
+
+### Why the DP Solution Is Optimal
+
+* It eliminates redundant calculations by storing results for subproblems.
+* By returning both rob and skip values at each node, it makes decisions efficiently at every level.
+* It ensures every node contributes to the overall maximum only once.
+
+---
 
 ## Summary
 
-* This problem asks us to maximize the loot from a binary tree under the constraint that we cannot rob directly connected houses.
-* The provided solution explores both possibilities for each node—robbing it or skipping it—and recursively selects the better one.
-* While the logic is sound and clear, this brute-force solution is inefficient for large trees due to repeated calculations.
+* House Robber III is an extension of the classic House Robber problem to binary trees.
+* The brute force recursive method considers all possible rob/skip combinations, leading to exponential time.
+* The dynamic programming solution improves this drastically by avoiding redundant calculations.
+* The DP approach is optimal and should be preferred for solving this problem efficiently.
