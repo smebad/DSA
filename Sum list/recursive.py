@@ -1,5 +1,5 @@
 # sum list
-# iterative solution
+# recursive solution
 # Define the Node class
 class Node:
     def __init__(self, val):
