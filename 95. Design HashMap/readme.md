@@ -1,4 +1,4 @@
-# Design HashMap - LeetCode - LeetCode
+# Design HashMap - LeetCode
 
 ## Problem Summary
 
