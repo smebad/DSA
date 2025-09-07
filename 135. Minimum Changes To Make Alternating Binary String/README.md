@@ -66,7 +66,7 @@ class Solution:
 
 ## Explanation in Simple Words
 
-* Think of the problem as trying to match the string to one of two templates: "010101..." or "101010...".
+* Think of the problem as trying to match the string to one of two templates: "010101.." or "101010..".
 * For each position in the string, we check if it matches the template.
 * If not, we count a change.
 * At the end, we compare how many changes each template would take and return the smaller number.
@@ -93,5 +93,6 @@ This way we do not need to build both patterns separately, saving time and memor
   * We only check each character once.
   * No extra storage like arrays or strings is used.
   * Both possible alternating patterns are covered in a single pass.
+
 
 Thus, it achieves the best possible time (`O(n)`) and space (`O(1)`) for this problem.
