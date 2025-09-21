@@ -105,4 +105,32 @@ The **iterative solution** is the most optimal because:
 
 * It runs in **O(n)** time.
 * It uses **O(1)** extra space.
+
 * It avoids recursion depth limitations, making it more robust for large inputs.
+
+---
+
+## Test Cases
+
+```python
+# Test Case 1
+head1 = ListNode(1, ListNode(2, ListNode(6, ListNode(3, ListNode(4, ListNode(5, ListNode(6)))))))
+val1 = 6  
+expected1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+result1 = Solution().removeElements(head1, val1)
+print_linked_list(result1)  # Output: [1, 2, 3, 4, 5]
+
+# Test Case 2
+head2 = ListNode(7, ListNode(7, ListNode(7, ListNode(7))))
+val2 = 7
+expected2 = None
+result2 = Solution().removeElements(head2, val2)
+print_linked_list(result2)  # Output: []
+
+# Test Case 3
+head3 = None
+val3 = 7
+expected3 = None
+result3 = Solution().removeElements(head3, val3)
+print_linked_list(result3)  # Output: []
+```
