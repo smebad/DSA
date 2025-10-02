@@ -1,123 +1,140 @@
-# Take Gifts From the Richest Pile - LeetCode
+# Average Waiting Time - LeetCode
 
 ## Problem Explanation
 
-The problem **Take Gifts From the Richest Pile** gives us an array `gifts`, where each element represents the number of gifts in a pile. Over the course of `k` seconds, we repeatedly perform the following steps:
+The "Average Waiting Time" problem is about simulating the workflow of a single chef in a restaurant. Customers arrive at certain times and each order takes a fixed amount of preparation time. The chef can only work on one order at a time, and customers must wait until their order is completed.
 
-1. Choose the pile with the maximum number of gifts.
-2. Reduce the pile to the floor of the square root of its current number of gifts.
-3. Repeat the process `k` times.
+You are given an array `customers`, where:
 
-After completing `k` operations, we must return the total number of gifts remaining across all piles.
+* `customers[i][0]` = arrival time of the i-th customer.
+* `customers[i][1]` = time required to prepare the order.
 
-### Example 1:
-
-```
-Input: gifts = [25,64,9,4,100], k = 4
-Output: 29
-```
-
-**Explanation:**
-
-* Choose 100 → becomes 10.
-* Choose 64 → becomes 8.
-* Choose 25 → becomes 5.
-* Choose 10 → becomes 3.
-  Final piles = [5,8,9,4,3]. Sum = 29.
-
-### Example 2:
+The goal is to calculate the **average waiting time** for all customers, where:
 
 ```
-Input: gifts = [1,1,1,1], k = 4
-Output: 4
+waiting_time = (time when order is finished) - (arrival time)
 ```
 
-**Explanation:**
-
-* All piles are 1, square root of 1 is still 1, so nothing changes.
-  Total = 4.
+Finally, return the average waiting time as a floating-point number.
 
 ---
 
-## Code with Comments
+## Example
+
+### Example 1
+
+Input: `customers = [[1,2],[2,5],[4,3]]`
+
+* Customer 1: arrives at 1, order finishes at 3 → waiting time = 2
+* Customer 2: arrives at 2, chef starts at 3, finishes at 8 → waiting time = 6
+* Customer 3: arrives at 4, chef starts at 8, finishes at 11 → waiting time = 7
+
+Average waiting time = (2 + 6 + 7) / 3 = **5.0**
+
+### Example 2
+
+Input: `customers = [[5,2],[5,4],[10,3],[20,1]]`
+
+* Customer 1: waiting time = 2
+* Customer 2: waiting time = 6
+* Customer 3: waiting time = 4
+* Customer 4: waiting time = 1
+
+Average waiting time = (2 + 6 + 4 + 1) / 4 = **3.25**
+
+---
+
+## Solution Code with Comments
 
 ```python
-import heapq
-from math import floor, sqrt
 from typing import List
 
 class Solution:
-    def pickGifts(self, gifts: List[int], k: int) -> int:
-        # Convert all elements to negative because Python's heapq is a min-heap by default.
-        # Negating values allows us to simulate a max-heap.
-        for i in range(len(gifts)):
-            gifts[i] = -gifts[i]
-        
-        # Build the heap from the list.
-        heapq.heapify(gifts)
+    def averageWaitingTime(self, customers: List[List[int]]) -> float:
+        time = 0   # Tracks the current time when chef is done with all previous orders
+        total = 0  # Tracks the total waiting time of all customers
 
-        # Perform k operations
-        for _ in range(k):
-            # Extract the current maximum (by popping the smallest negative value)
-            n = -heapq.heappop(gifts)
-            # Push the square root of this number (negated again for max-heap behavior)
-            heapq.heappush(gifts, -floor(sqrt(n)))
+        for arrival, order in customers:
+            # If chef is still busy when customer arrives, customer must wait
+            if time > arrival:
+                total += time - arrival   # add waiting time (when chef starts - arrival)
+            else:
+                # If chef is idle before this customer arrives, reset time to arrival
+                time = arrival
 
-        # Sum the values (negating them back to positive)
-        return -sum(gifts)
+            total += order   # add the order preparation time
+            time += order    # update chef's time when he finishes this order
+
+        # Average waiting time = total waiting time / number of customers
+        return total / len(customers)
 ```
 
 ---
 
-## Solution Explanation
+## Explanation of the Approach
 
-The approach uses a **max-heap** (simulated via a min-heap with negated values) to always pick the largest pile efficiently.
+This solution simulates the process step by step:
 
-### Step-by-step logic:
+1. **Track the chef's time:**
 
-1. Convert all values to negatives so that Python's `heapq` can be used as a max-heap.
-2. Build a heap of size `n` (number of piles).
-3. For `k` iterations:
+   * If the chef is still busy (`time > arrival`), the customer waits until the chef is free.
+   * Otherwise, the chef starts immediately when the customer arrives.
 
-   * Remove the largest pile (top of the heap).
-   * Replace it with the floor of its square root.
-4. At the end, compute the sum of all remaining piles and return it.
+2. **Track waiting time:**
+
+   * Waiting time is calculated as the finish time of the order minus the arrival time.
+   * We accumulate this waiting time for each customer.
+
+3. **Compute the average:**
+
+   * Divide the total waiting time by the number of customers.
+
+---
+
+## Why This Approach Works
+
+* The arrival times are sorted, so we can simply process customers in order.
+* At every step, we only need to know whether the chef is idle or busy.
+* There is no need for complex data structures like heaps or queues because there is only one chef and orders are processed sequentially.
 
 ---
 
 ## Complexity Analysis
 
-* **Time Complexity:**
+* **Time Complexity:** `O(n)`
 
-  * Building the heap takes **O(n)**.
-  * Each of the `k` operations involves a pop and push on the heap, each costing **O(log n)**.
-  * Total = **O(n + k log n)**.
+  * We go through all customers once.
+* **Space Complexity:** `O(1)`
 
-* **Space Complexity:**
+  * Only a few variables are used regardless of input size.
 
-  * We use a heap of size `n`, so **O(n)**.
+---
 
-### Why is this optimal?
+## Most Optimal Solution
 
-* We must repeatedly extract the maximum pile. Without a heap, finding the maximum each time would take **O(n)** per operation, leading to **O(nk)** in total.
-* The heap allows us to always access the maximum in **O(log n)** time, making the process much more efficient for large inputs.
+The above solution is already **optimal**:
 
-Thus, the heap-based solution is the most optimal approach for this problem.
+* We must at least check each customer once, so `O(n)` is the best possible time complexity.
+* We only use constant space, which cannot be improved further.
+
+Therefore, the simulation approach is the most efficient solution.
 
 ---
 
 ## Test Cases
 
 ```python
-sol = Solution()
+solution = Solution()
 
 # Test Case 1
-gifts = [25,64,9,4,100]
-k = 4
-print(sol.pickGifts(gifts, k))  # Output: 29
+customers1 = [[1,2],[2,5],[4,3]]
+print(solution.averageWaitingTime(customers1))  # Expected: 5.0
 
 # Test Case 2
-gifts = [1,1,1,1]
-k = 4
-print(sol.pickGifts(gifts, k))  # Output: 4
+customers2 = [[5,2],[5,4],[10,3],[20,1]]
+print(solution.averageWaitingTime(customers2))  # Expected: 3.25
+
+# Edge Case: Single customer
+customers3 = [[1,3]]
+print(solution.averageWaitingTime(customers3))  # Expected: 3.0
 ```
