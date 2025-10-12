@@ -23,5 +23,5 @@ sol = Solution()
 print(sol.interchangeableRectangles([[4,8],[3,6],[10,20],[15,30]]))  # Expected output: 6
 
 # Test Case 2:
-
 print(sol.interchangeableRectangles([[4,5],[7,8]]))  # Expected output: 0
+
