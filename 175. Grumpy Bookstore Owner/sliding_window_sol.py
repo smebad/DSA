@@ -22,7 +22,10 @@ class Solution:
             max_window = max(window, max_window)
 
         return satisfied + max_window
-
+        
+# Time Complexity: O(n), where n is the length of the customers array. We traverse the array once using the sliding window technique.
+# Space Complexity: O(1), as we are using a constant amount of extra space regardless of the input size.
+# This sliding window solution is more efficient than the brute force solution due to its O(n) time complexity.
 
 # Test Cases:
 solution = Solution()
