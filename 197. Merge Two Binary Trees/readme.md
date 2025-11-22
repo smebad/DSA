@@ -84,24 +84,6 @@ This solution uses **Depth First Search (DFS)** and recursion. The core idea is 
 
 Recursion naturally mirrors the structure of the binary tree, making it straightforward to walk both trees at once.
 
-### Differences from other approaches
-
-There are two main ways to solve this problem:
-
-#### 1. DFS (Recursive) – Used in your code
-
-* Easy to write and understand.
-* Follows tree structure naturally.
-* Uses recursion to explore each node.
-
-#### 2. BFS (Iterative)
-
-* Uses a queue to traverse both trees level by level.
-* Can be harder to write and maintain.
-* Avoids recursion for environments with restricted call stack size.
-
-Your solution is the simpler and more intuitive recursive DFS version.
-
 ---
 
 ## 4. Time and Space Complexity
@@ -177,4 +159,5 @@ root1 = build_tree_from_list([1])
 root2 = build_tree_from_list([1,2])
 merged_tree = sol.mergeTrees(root1, root2)
 print(tree_to_list(merged_tree))  # Output: [2, 2]
+
 ```
