@@ -83,11 +83,6 @@ class Solution:
 * Since the BST is ordered, consecutive values in inorder traversal are the closest numerically.
 * Comparing only consecutive nodes ensures we find the smallest possible difference.
 
-### Differences from Other Approaches
-
-* **Brute Force:** One could check every pair of nodes, but that would be O(n^2) time complexity.
-* **Inorder Traversal:** Linear time O(n) and uses O(h) space (recursion stack). This is optimal.
-
 ### Time and Space Complexity
 
 * **Time Complexity:** O(n), where n is the number of nodes. Each node is visited once.
@@ -124,4 +119,5 @@ if __name__ == "__main__":
     for val in [1, 0, 48, 12, 49]:
         root2 = insert_into_bst(root2, val)
     print(sol.minDiffInBST(root2))  # Output: 1
+
 ```
