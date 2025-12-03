@@ -17,7 +17,7 @@ Your task is to sort the original `nums` array based on these mapped values, whi
 
 ---
 
-## 2. Your Code with Detailed Comments
+## 2. Code with Comments
 
 ```python
 from typing import List
@@ -129,4 +129,5 @@ print(sol.sortJumbled(mapping, nums))  # Expected Output: [338, 38, 991]
 mapping = [0,1,2,3,4,5,6,7,8,9]
 nums = [789,456,123]
 print(sol.sortJumbled(mapping, nums))  # Expected Output: [123, 456, 789]
+
 ```
