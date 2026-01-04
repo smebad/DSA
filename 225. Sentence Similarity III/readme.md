@@ -15,11 +15,11 @@ Two sentences are considered similar if:
 
 ---
 
-## Understanding the Given Solution
+## Understanding the Solution
 
 The solution uses a **two-pointer technique** by comparing words from the beginning and the end of both sentences.
 
-### Code with Detailed Comments
+### Code with Comments
 
 ```python
 class Solution:
@@ -134,4 +134,5 @@ print(Solution().areSentencesSimilar(sentence1, sentence2))  # Output: False
 sentence1 = "Eating right now"
 sentence2 = "Eating"
 print(Solution().areSentencesSimilar(sentence1, sentence2))  # Output: True
+
 ```
