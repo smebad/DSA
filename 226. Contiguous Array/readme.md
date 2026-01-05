@@ -1,4 +1,4 @@
-# Contiguous Array
+# Contiguous Array - LeetCode
 
 ## Problem Description
 
