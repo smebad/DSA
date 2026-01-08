@@ -1,4 +1,4 @@
-# Count Number of Nice Subarrays
+# Count Number of Nice Subarrays - LeetCode
 
 ## Problem Description
 
