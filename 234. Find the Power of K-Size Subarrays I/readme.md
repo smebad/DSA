@@ -1,24 +1,26 @@
-# Find the Power of K-Size Subarrays I - LeetCode
+# Find the Power of K-Size Subarrays I – LeetCode
 
 ## 1. Problem Explanation
 
-**Find the Power of K-Size Subarrays I** is a sliding window problem where you are given:
+**Find the Power of K-Size Subarrays I** is a sliding window problem.
+
+You are given:
 
 * An integer array `nums` of length `n`
 * A positive integer `k`
 
-You must examine **every contiguous subarray of size `k`** and calculate its **power**.
+You must examine **every contiguous subarray of size `k`** and compute its **power**.
 
 ### Definition of Power
 
 A subarray has a valid power **only if**:
 
-1. Its elements are **sorted in strictly ascending order**
-2. All elements are **consecutive** (each next element is exactly `+1` from the previous)
+1. Its elements are **strictly increasing**
+2. Each element is **exactly 1 greater than the previous element**
 
-If both conditions are satisfied, the power is:
+If both conditions are satisfied:
 
-* The **maximum element** of that subarray
+* The power is the **maximum element** of the subarray
 
 Otherwise:
 
@@ -26,42 +28,42 @@ Otherwise:
 
 ### Output
 
-Return an array `results` of size `n - k + 1` where:
+Return an array `results` of size `n - k + 1`, where:
 
 * `results[i]` is the power of subarray `nums[i .. i + k - 1]`
 
 ---
 
 ## 2. Code With Comments
+
 ```python
 from typing import List
 
 class Solution:
     def resultsArray(self, nums: List[int], k: int) -> List[int]:
-        res = []              # Stores final power values for each window
-        l = 0                 # Left pointer of sliding window
-        consec_count = 1      # Counts how many consecutive pairs exist
+        res = []          # Stores the power of each k-size subarray
+        l = 0             # Left pointer of the sliding window
 
-        for r in range(len(nums)):  # Right pointer moves through array
+        # Move the right pointer across the array
+        for r in range(len(nums)):
 
-            # Check if current and previous elements are consecutive
-            if r > 0 and nums[r] == nums[r - 1] + 1:
-                consec_count += 1
-
-            # If window size exceeds k, shrink from the left
+            # If window size exceeds k, shrink it from the left
             if r - l + 1 > k:
-                # If the outgoing pair was consecutive, reduce count
-                if nums[l] + 1 == nums[l + 1]:
-                    consec_count -= 1
                 l += 1
 
-            # When window size is exactly k
+            # When the window size is exactly k, evaluate the subarray
             if r - l + 1 == k:
-                # If all k elements form k-1 consecutive pairs
-                if consec_count == k:
-                    res.append(nums[r])  # Max element (last element)
-                else:
-                    res.append(-1)
+                valid = True  # Assume the subarray is valid
+
+                # Check if the subarray is strictly increasing and consecutive
+                for i in range(l, r):
+                    if nums[i + 1] != nums[i] + 1:
+                        valid = False
+                        break
+
+                # If valid, the last element is the maximum
+                # Otherwise, append -1
+                res.append(nums[r] if valid else -1)
 
         return res
 ```
@@ -72,42 +74,36 @@ class Solution:
 
 ### Key Idea
 
-Instead of checking each subarray from scratch, we use a **sliding window** technique.
+The problem requires checking **every contiguous subarray of size `k`**. Since subarrays overlap, a **sliding window** approach is used.
 
-### Why Sliding Window?
+### How the Sliding Window Works
 
-* Each valid subarray is **contiguous**
-* Sliding window avoids recomputing the same values repeatedly
+1. Two pointers `l` (left) and `r` (right) define a window
+2. The window always maintains a size of `k`
+3. When the window size becomes `k`:
 
-### How the Logic Works
+   * We verify whether all adjacent elements satisfy:
 
-1. Two pointers (`l` and `r`) define a window of size `k`
-2. As `r` moves forward:
+     ```
+     nums[i + 1] == nums[i] + 1
+     ```
+4. If all pairs satisfy the condition:
 
-   * We check if `nums[r]` is consecutive to `nums[r-1]`
-   * If yes, we increase `consec_count`
-3. If window size exceeds `k`:
+   * The subarray is valid
+   * The power is the last element (`nums[r]`)
+5. If any pair fails the condition:
 
-   * Move `l` forward
-   * Adjust `consec_count` if a valid consecutive pair leaves the window
-4. When window size becomes exactly `k`:
+   * The power is `-1`
 
-   * If the number of consecutive transitions equals `k - 1`
+### Why the Last Element Is the Maximum
 
-     * The subarray is valid
-     * Append the maximum element
-   * Otherwise, append `-1`
+Because the subarray must be **strictly increasing**, the largest value will always appear at the end of the window.
 
-### Why `k - 1` Consecutive Checks?
+### Difference From Failed Optimized Attempts
 
-A subarray of size `k` needs **k - 1 consecutive relationships** to be strictly increasing.
-
-Example:
-
-```
-[1, 2, 3]
-1→2, 2→3 → 2 consecutive pairs (k - 1)
-```
+* Some optimized approaches try to track consecutive counts dynamically
+* These often fail due to overlapping window transitions
+* This solution prioritizes **correctness and clarity** over aggressive optimization
 
 ---
 
@@ -115,55 +111,45 @@ Example:
 
 ### Current Solution
 
-* **Time Complexity:** `O(n * k)`
+* **Time Complexity:** `O(n × k)`
 
-  * Because `max(nums[l:r+1])` is computed for each window
+  * Each window of size `k` may require checking up to `k - 1` elements
 * **Space Complexity:** `O(1)`
 
-  * Only constant extra variables are used
+  * Only constant extra variables are used (excluding output array)
 
-### Most Optimal Approach
-
-The optimal approach achieves:
+### Most Optimal Approach (Conceptual)
 
 * **Time Complexity:** `O(n)`
 * **Space Complexity:** `O(1)`
 
-### Why Is It Optimal?
+### Why an O(n) Solution Is Difficult
 
-* The maximum element in a valid window is always the **last element**
-* No need to call `max()` repeatedly
-* Each element is processed only once
+* Consecutiveness can break at any point
+* A single invalid element invalidates the entire window
+* Tracking this efficiently without rechecking elements is non-trivial
 
-### Optimized Insight
-
-If a window is valid:
-
-```python
-max_value = nums[r]
-```
-
-This removes the expensive `max()` call and makes the algorithm linear.
+Given the constraints (`n ≤ 500`), the current solution is efficient, readable, and reliable.
 
 ---
 
-## Test Cases:
+## Test Cases
+
 ```python
-# Test Cases:
 sol = Solution()
 
 # Test Case 1
-nums = [1,2,3,4,3,2,5]
+nums = [1, 2, 3, 4, 3, 2, 5]
 k = 3
-print(sol.resultsArray(nums, k))
+print(sol.resultsArray(nums, k))  # [3, 4, -1, -1, -1]
 
-# Test Case 2 
-nums = [2,2,2,2,2]
+# Test Case 2
+nums = [2, 2, 2, 2, 2]
 k = 4
-print(sol.resultsArray(nums, k))
+print(sol.resultsArray(nums, k))  # [-1, -1]
 
 # Test Case 3
-nums = [3,2,3,2,3,2]
+nums = [3, 2, 3, 2, 3, 2]
 k = 2
-print(sol.resultsArray(nums, k))
+print(sol.resultsArray(nums, k))  # [-1, 3, -1, 3, -1]
 ```
