@@ -33,9 +33,6 @@ Return an array `results` of size `n - k + 1` where:
 ---
 
 ## 2. Code With Comments
-
-Below is your **sliding window solution**, rewritten with clear comments so you can easily remember how it works.
-
 ```python
 from typing import List
 
