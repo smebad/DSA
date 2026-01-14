@@ -1,5 +1,4 @@
 # 3Sum
-
 # Brute Force Solution:
 from typing import List
 class Solution:
