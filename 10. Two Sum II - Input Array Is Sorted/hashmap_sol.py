@@ -1,5 +1,4 @@
 # Two Sum II - Input Array Is Sorted
-
 # hashmap solution:
 from typing import List
 from collections import defaultdict
