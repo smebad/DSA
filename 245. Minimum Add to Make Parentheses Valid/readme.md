@@ -1,57 +1,83 @@
 # Minimum Add to Make Parentheses Valid - LeetCode
 
-## 1. Problem Overview
+## 1. Problem Explanation
 
-You are given a string consisting only of '(' and ')'. A parentheses string is valid if:
+This problem asks you to make a string of parentheses valid using the minimum number of insertions.
 
-* It is empty, or
-* It can be written as two valid strings concatenated, or
-* It can be written as '(' + valid string + ')'.
+A parentheses string is considered valid if:
 
-You can insert parentheses anywhere in the string. Your task is to find the minimum number of insertions required to make the string valid.
+* It is empty
+* Or it can be formed by concatenating two valid strings
+* Or it is surrounded by a matching pair of parentheses
 
-## 2. Code with Comments
+You are given a string `s` that only contains `(` and `)` characters. In one move, you are allowed to insert either `(` or `)` at any position. Your task is to find the minimum number of insertions required to make the string valid.
+
+Examples:
+
+* `"())"` needs 1 insertion to become valid
+* `"((("` needs 3 closing parentheses to become valid
+
+---
+
+## 2. Code With Comments
 
 ```python
 class Solution:
     def minAddToMakeValid(self, s: str) -> int:
-        open_cnt = 0  # Counts how many '(' are currently unmatched
-        res = 0       # Counts how many ')' we need to insert
+        open_cnt = 0   # Keeps track of how many '(' are currently unmatched
+        res = 0        # Stores how many parentheses we need to add
 
+        # Traverse through every character in the string
         for c in s:
             if c == "(":
                 # Found an opening bracket, increase count
                 open_cnt += 1
             else:
                 # Found a closing bracket
-                if open_cnt > 0:
-                    # If we have an opening to match it, use it
+                if open_cnt == 0:
+                    # No '(' available to match this ')', so we must add one
                     res += 1
-                # Reduce open count, but never go below 0
+                # Try to match this ')' with an existing '('
                 open_cnt = max(open_cnt - 1, 0)
 
-        # Add remaining unmatched '(' as ')'
+        # Any remaining '(' must be closed with ')'
         return res + open_cnt
 ```
 
-## 3. Solution Explanation
+---
 
+## 3. Solution Approach and Logic
+
+The idea is to keep track of how many opening parentheses are waiting to be matched.
+
+We go through the string character by character:
+
+* When we see `(`, we increase `open_cnt` because it needs a `)` in the future.
+* When we see `)`:
+
+  * If we already have an unmatched `(`, we match them.
+  * If we do not have one, this means the `)` is invalid, so we must insert a `(`. We increase `res`.
+
+After processing the whole string, if there are still unmatched `(` left, we must add the same number of `)` to close them.
+
+### Why this works
+
+Every invalid `)` needs a `(` before it.
+Every remaining `(` needs a `)` after it.
+
+The algorithm simply counts these two cases.
+
+---
+
+## 4. Time and Space Complexity
+
+Time Complexity: O(n)
 We scan the string once.
 
-* When we see '(', we increase `open_cnt` because we have an opening bracket waiting to be matched.
-* When we see ')':
+Space Complexity: O(1)
+Only two integer variables are used.
 
-  * If there is an unmatched '(', we match it.
-  * Otherwise, we need to add an opening bracket before it.
-
-At the end, any remaining '(' must be closed by inserting ')'.
-
-This approach avoids using a stack and uses counters instead.
-
-## 4. Complexity
-
-* Time: O(n)
-* Space: O(1)
+This is the most optimal solution because every character must be read at least once, and no extra data structures are needed.
 
 ---
 
