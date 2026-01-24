@@ -9,7 +9,7 @@ class Solution:
             if c == "(":
                 open_cnt += 1
             else:
-                if open_cnt > 0:
+                if open_cnt == 0:
                     res += 1
                 open_cnt = max(open_cnt - 1, 0)
 
@@ -31,3 +31,4 @@ if __name__ == "__main__":
     # Test Case 2
     s2 = "((("
     print(sol.minAddToMakeValid(s2))  # Expected output: 3
+
