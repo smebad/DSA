@@ -38,9 +38,6 @@ Here, all numbers appear twice except `2`, so the answer is `2`.
 ---
 
 ## 2. Code With Detailed Comments
-
-Below is your exact solution with added comments explaining every step.
-
 ```python
 from typing import List
 
@@ -150,5 +147,6 @@ This solution is optimal because:
 * It satisfies the strict requirement of **O(log n)** time.
 * It uses **constant memory**.
 * It leverages the **sorted structure and pairing pattern**.
+
 
 No solution can do better than O(log n) for this problem because we must at least inspect values using binary search logic.
