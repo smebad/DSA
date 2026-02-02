@@ -28,7 +28,6 @@ class TimeMap:
 # The space complexity is O(m * n) because we are storing m keys, and each key can have up to n values.
 # This binary search array solution is efficient for both time and space complexity, making it suitable for large datasets.
 # The binary search approach allows for efficient retrieval of values based on timestamps, while the dictionary structure provides quick access to the key-value pairs.
-# The approach is optimal for scenarios where the number of keys is large, and the number of values per key is also significant.
 
 
 # Test Cases:
