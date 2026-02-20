@@ -1,5 +1,4 @@
-# pair sum problem
-# Write a function, pair_sum, that takes in a list and 
+# Pair sum problem
 # Brute Force Solution
 
 def pair_sum(numbers, target_sum):
