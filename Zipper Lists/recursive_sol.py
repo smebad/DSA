@@ -1,6 +1,4 @@
 # Zipper lists
-# You may assume that both input lists are non-empty.
-
 
 # Recursive Solution
 
