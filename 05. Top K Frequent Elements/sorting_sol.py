@@ -1,5 +1,5 @@
 # Top K Frequent Elements
-# Sorting solution (not the optimal one)
+# Sorting solution
 from typing import List
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
